@@ -77,7 +77,7 @@ main{flex:1;display:flex;min-height:0;position:relative}
 .hero .big{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
 .hero .f{font-size:12.5px;color:var(--muted);margin-top:4px}
 .hero .w{margin-top:8px;font-size:12.5px;color:var(--warn)}
-table.px{width:100%;border-collapse:collapse;font-size:13px}table.px th,table.px td{padding:6px 6px;border-bottom:1px solid var(--line2);text-align:right;white-space:nowrap}
+table.px{width:100%;border-collapse:collapse;font-size:12.5px}table.px th,table.px td{padding:6px 4px;border-bottom:1px solid var(--line2);text-align:right;white-space:nowrap}table.px th span{font-size:11px}
 table.px th{color:var(--muted);font-weight:500;font-size:12px;line-height:1.3}table.px td:first-child,table.px th:first-child{text-align:left;color:var(--ink2)}table.px tr:last-child td{border-bottom:0}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px}.kv span:nth-child(odd){color:var(--muted);font-size:12.5px;white-space:nowrap}
 .note{font-size:12.5px;color:var(--ink2);line-height:1.55}
@@ -236,6 +236,8 @@ const DATA=[{"k": "ddfb0f7c", "tab": "hall", "name": "선운각(한옥웨딩)", 
 const css=k=>getComputedStyle(document.documentElement).getPropertyValue(k).trim();
 const COLOR={hall:css('--hall'),church:css('--church'),public:css('--public')};
 const won=n=>n==null?null:Number(n).toLocaleString('ko-KR')+'원';const man=n=>n==null?'-':(Math.round(n/10000)).toLocaleString('ko-KR')+'만원';
+const cm=n=>{if(n==null)return null;n=Number(n);if(n<10000)return n.toLocaleString('ko-KR')+'원';const v=n/10000;return (v>=100?Math.round(v).toLocaleString('ko-KR'):(Math.round(v*10)/10).toLocaleString('ko-KR'))+'만'};
+const cmr=(a,b)=>{if(a==null&&b==null)return null;if(a==null||b==null||a===b)return cm(a??b);const x=cm(a),y=cm(b);return (x.endsWith('만')&&y.endsWith('만'))?x.slice(0,-1)+'~'+y:x+'~'+y};
 const rng=(a,b,f=won)=>a==null&&b==null?null:(a!=null&&b!=null&&a!==b?`${f(a)}~${f(b)}`:f(a??b));
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const safeUrl=u=>{u=String(u??'').trim();return /^https?:\/\//i.test(u)?esc(u):null};
@@ -264,7 +266,7 @@ const naverLink=n=>`https://map.naver.com/p/search/${encodeURIComponent(n)}`,kak
 function priceTable(d){const tp=d.tp||{meal:[],fee:[]};const px=d.px||{};
  const cols=[['tp','공시가','참가격'],['iw','아이웨딩','표기가'],['wb','웨딩북','표기가'],['dw','다이렉트','표기가']].filter(([k])=>k==='tp'?!!d.tp:!!px[k]);
  if(!cols.length)return '<div class="note">공개된 가격 없음 — 링크에서 확인</div>';
- const get=(k,f)=>k==='tp'?(f==='guar'?(tp.guar?`${tp.guar}명`:null):f==='total'?null:rng(tp[f][0],tp[f][1])):(f==='guar'?(px[k].guar?`${px[k].guar}명`:null):rng(px[k][f][0],px[k][f][1]));
+ const get=(k,f)=>k==='tp'?(f==='guar'?(tp.guar?`${tp.guar}명`:null):f==='total'?null:cmr(tp[f][0],tp[f][1])):(f==='guar'?(px[k].guar?`${px[k].guar}명`:null):cmr(px[k][f][0],px[k][f][1]));
  const rows=[['식대(1인)','meal'],['대관료','fee'],['보증인원','guar'],['총액','total']].map(([label,f])=>{const vals=cols.map(([k])=>get(k,f));return vals.some(Boolean)?`<tr><td>${label}</td>${vals.map(v=>`<td class="num">${v??'<span style="color:var(--muted)">-</span>'}</td>`).join('')}</tr>`:''}).join('');
  return `<div class="wrap"><table class="px"><thead><tr><th></th>${cols.map(([k,a,b_])=>`<th>${a}<br><span style="font-weight:400">${b_}</span></th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>${safeUrl(tp.link)?`<div class="note" style="margin-top:4px"><a href="${safeUrl(tp.link)}" target="_blank" rel="noopener">참가격 공시 원문 ↗</a></div>`:''}`}
 function detailHTML(d){const tags=[d.type,d.gu,d.zone];if(d.tab==='church')tags.push(d.denom);
