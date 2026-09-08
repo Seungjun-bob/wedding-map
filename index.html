@@ -220,7 +220,7 @@ table.cmp th{color:var(--muted);font-weight:500;position:sticky;top:0;background
   <dt>동시예식과 분리예식</dt><dd>동시예식은 식이 끝나면 그 자리에서 식사, 분리예식은 연회장으로 이동합니다. 홀 하나를 우리만 쓰는지(단독)도 확인.</dd>
   <dt>투어 때 서면으로 확인할 것</dt><dd>추가 인원 단가, 꽃장식 포함 여부, 외부 업체 반입, 주차 무료 시간, 위약금 조항.</dd>
  </dl>
-</div></div></div>
+</div><div class="sf"><span class="note" style="flex:1;align-self:center">처음 한 번만 자동으로 열립니다. 다시 보려면 위의 ? 버튼.</span><button class="btn pri" data-close="mHelp">시작하기</button></div></div></div>
 <div id="toast" role="status"></div>
 <script>
 
@@ -375,6 +375,8 @@ document.getElementById('btnGu').addEventListener('click',()=>{const by={};DATA.
  document.querySelectorAll('#guTable [data-gu]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.getElementById('mGu').classList.remove('open');document.getElementById('q').value=a.dataset.gu;S.q=a.dataset.gu;render()}));
  document.getElementById('mGu').classList.add('open')});
 document.getElementById('lbl').addEventListener('change',e=>ENGINE.labels(e.target.value));
+/* 첫 방문: 안내를 한 번 자동으로 연다 (공유 링크로 들어온 경우는 목록을 먼저 보여주고 열지 않음) */
+if(!LS.get('seen',false)&&!/pick=/.test(location.hash)){LS.set('seen',true);setTimeout(()=>document.getElementById('mHelp').classList.add('open'),400)}
 
 /* ---------- 카카오맵 엔진 ---------- */
 const TIER=d=>{if(d.tab!=='hall')return 't2';const c=d.cap||0,r=d.reviews||0;return (c>=600||r>=300)?'t1':(c>=250||r>=50)?'t2':'t3'};
