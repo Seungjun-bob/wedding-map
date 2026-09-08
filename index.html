@@ -42,8 +42,8 @@ main{flex:1;display:flex;min-height:0;position:relative}
 /* 목록 */
 .lh{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
 .lh .cnt{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lh label{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
-.lh input[type=number]{width:58px;padding:3px 6px;border:1px solid var(--line);border-radius:6px;background:var(--plane);text-align:right}
+.lh label{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;color:var(--ink);font-weight:600;padding:2px 4px 2px 8px;border:1px solid color-mix(in srgb,var(--hall) 45%,var(--line));border-radius:999px;background:color-mix(in srgb,var(--hall) 8%,var(--surface))}
+.lh input[type=number]{width:60px;padding:3px 6px;border:0;border-radius:6px;background:transparent;text-align:right;font-weight:700;font-size:14px;color:var(--hall)}
 .lh select{padding:3px 4px;border:0;background:transparent;color:var(--ink2);max-width:120px}
 #items{flex:1;overflow:auto;overscroll-behavior:contain}
 .item{padding:10px 12px 10px 14px;border-bottom:1px solid var(--line2);cursor:pointer;position:relative;display:grid;grid-template-columns:1fr auto;gap:2px 8px}
@@ -323,7 +323,8 @@ document.querySelectorAll('.chip[data-tab]').forEach(b=>b.addEventListener('clic
 ['zone','type','shape','food','mealMax','parkMin','near','regional','sort'].forEach(k=>document.getElementById(k).addEventListener('change',e=>{S[k]=e.target.value;render()}));
 ['fit','walk10','hasfee','favOnly'].forEach(k=>document.getElementById(k).addEventListener('change',e=>{S[k]=e.target.checked;render()}));
 document.getElementById('q').addEventListener('input',e=>{S.q=e.target.value.trim();render()});
-document.getElementById('guests').addEventListener('input',()=>{render();if(cur!=null)showDetail(cur)});
+(function(){const g=LS.get('guests',null);if(g)document.getElementById('guests').value=g})();
+document.getElementById('guests').addEventListener('input',()=>{LS.set('guests',guests());render();if(cur!=null)showDetail(cur)});
 document.getElementById('tglF').addEventListener('click',()=>document.getElementById('mFilter').classList.add('open'));
 function resetFilters(){['zone','type','shape','food','mealMax','parkMin','near','regional'].forEach(k=>setSel(k,''));['fit','walk10','favOnly'].forEach(k=>setChk(k,false));setChk('hasfee',true);S.tabs={hall:true,church:true,public:true};document.querySelectorAll('.chip[data-tab]').forEach(c=>c.setAttribute('aria-pressed','true'))}
 document.getElementById('fReset').addEventListener('click',()=>{resetFilters();render();toast('필터를 초기화했습니다')});
@@ -387,8 +388,13 @@ document.getElementById('btnGu').addEventListener('click',()=>{const by={};DATA.
  document.getElementById('mGu').classList.add('open')});
 document.getElementById('lbl').addEventListener('change',e=>ENGINE.labels(e.target.value));
 /* 첫 방문: 안내를 한 번 자동으로 연다 (공유 링크로 들어온 경우는 목록을 먼저 보여주고 열지 않음) */
-if(!LS.get('seen',false)&&!/pick=/.test(location.hash)){const w=document.createElement('div');w.id='welcome';w.innerHTML=`<b>처음이신가요?</b> 하객 수를 넣으면 예상 총액이 계산되고, 마음에 드는 곳은 ♡로 담아 비교할 수 있어요.<div class="fg" style="margin-top:8px"><button class="btn sm pri" id="wGuide">5단계 가이드 보기</button><button class="btn sm" id="wClose">닫기</button></div>`;
- document.getElementById('items').before(w);const done=()=>{LS.set('seen',true);w.remove()};document.getElementById('wGuide').onclick=()=>{done();document.getElementById('mHelp').classList.add('open')};document.getElementById('wClose').onclick=done}
+if(!LS.get('seen',false)&&!/pick=/.test(location.hash)){const w=document.createElement('div');w.id='welcome';w.innerHTML=`<b>하객이 몇 명쯤 오나요?</b><div class="note" style="margin:2px 0 8px">양가 합쳐 대략이면 됩니다. 이 숫자로 홀마다 예상 총액과 보증인원 경고가 계산됩니다.</div>
+ <div class="fg" id="wChips">${[150,200,250,300,400].map(n=>`<button class="btn sm" data-g="${n}">${n}명</button>`).join('')}<span class="tg" style="padding:0 6px 0 10px">직접 <input type="number" id="wG" class="num" min="50" max="1500" step="10" value="${guests()}" style="width:64px;border:0;background:transparent;font-weight:600;text-align:right">명 <button class="btn sm pri" id="wApply">적용</button></span></div>
+ <div class="fg" style="margin-top:8px"><button class="btn sm" id="wGuide">처음이라면 5단계 가이드</button><button class="btn sm" id="wClose">닫기</button></div>`;
+ document.getElementById('items').before(w);const done=()=>{LS.set('seen',true);w.remove()};
+ const apply=n=>{const g=document.getElementById('guests');g.value=n;LS.set('guests',n);render();if(cur!=null)showDetail(cur);done();toast(`하객 ${n}명 기준으로 계산합니다. 위 "하객" 칸에서 언제든 바꿀 수 있어요`)};
+ document.querySelectorAll('#wChips [data-g]').forEach(b=>b.onclick=()=>apply(+b.dataset.g));document.getElementById('wApply').onclick=()=>apply(+document.getElementById('wG').value||250);
+ document.getElementById('wGuide').onclick=()=>{done();document.getElementById('mHelp').classList.add('open')};document.getElementById('wClose').onclick=done}
 
 /* ---------- 카카오맵 엔진 ---------- */
 const TIER=d=>{if(d.tab!=='hall')return 't2';const c=d.cap||0,r=d.reviews||0;return (c>=600||r>=300)?'t1':(c>=250||r>=50)?'t2':'t3'};
