@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>https://weddingmap.seungjun.dev/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/seoul/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/gyeonggi/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/incheon/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/busan/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/daegu/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/daejeon/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/gwangju/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/ulsan/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/sejong/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/gangwon/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/chungbuk/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/chungnam/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/jeonbuk/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/jeonnam/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/gyeongbuk/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/gyeongnam/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>https://weddingmap.seungjun.dev/jeju/</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq></url>
 </urlset>
