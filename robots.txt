@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://seungjun-bob.github.io/wedding-map/sitemap.xml
+Sitemap: https://weddingmap.seungjun.dev/sitemap.xml
