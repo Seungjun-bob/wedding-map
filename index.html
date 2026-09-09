@@ -138,6 +138,7 @@ table.cmp th{color:var(--muted);font-weight:500;position:sticky;top:0;background
  #list.anim{transition:transform .3s cubic-bezier(.2,.8,.2,1)}
  .handle{display:block;position:relative;width:44px;height:5px;border-radius:3px;background:#b8bcc4;margin:8px auto 0;cursor:grab;touch-action:none}.handle::before{content:"";position:absolute;inset:-12px -80px}
  .lh{touch-action:none;cursor:grab}
+ html,body{overscroll-behavior:none}
  input:not([type=checkbox]):not([type=radio]),select,textarea{font-size:16px!important}  /* iOS: 16px 미만 입력칸은 포커스 시 화면 확대 */
  #detail{position:absolute;left:0;right:0;bottom:0;width:auto;max-height:78%;border-left:0;border-top:1px solid var(--line);border-radius:14px 14px 0 0;box-shadow:0 -8px 28px rgba(0,0,0,.18);z-index:950}
  .sheet{align-items:flex-end;padding:0}.sheet .box,.sheet .box.wide{max-width:none;border-radius:16px 16px 0 0;max-height:92vh}
@@ -352,6 +353,11 @@ document.getElementById('fReset').addEventListener('click',()=>{resetFilters();r
   const [t0,y0]=s.samples[0],[t1,y1]=s.samples[s.samples.length-1];const v=(t1>t0&&e.timeStamp-t1<120)?(y1-y0)/(t1-t0):0;  /* 멈췄다 놓으면 튕김 아님 */
   const target=Math.abs(v)>.45?Math.max(0,Math.min(2,cur+(v<0?1:-1))):[0,1,2].reduce((b,i)=>Math.abs(px(i)-s.vis)<Math.abs(px(b)-s.vis)?i:b,0);snap(target)};
  for(const el of [h,lh]){el.addEventListener('pointerdown',down);el.addEventListener('pointermove',move);el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up)}
+ /* 인앱 브라우저(스레드·인스타)는 페이지가 소비하지 않은 세로 스와이프를 창 닫기로 해석한다. 드래그 중 touchmove를 소비해 네이티브로 넘기지 않는다 */
+ for(const el of [h,lh])el.addEventListener('touchmove',e=>{if(st)e.preventDefault()},{passive:false});
+ /* 같은 이유로 터치 기기에서는 문서를 1px만 스크롤 가능하게 두고 항상 1px 내려둔다. 스크롤 위치 0에서의 아래 스와이프가 창 닫기로 잡히기 때문 */
+ const coarse=matchMedia('(pointer:coarse)');const nudge=()=>{if(coarse.matches&&mq.matches){document.body.style.minHeight=(innerHeight+1)+'px';if(scrollY<1)scrollTo(0,1)}else document.body.style.minHeight=''};
+ addEventListener('scroll',nudge,{passive:true});addEventListener('resize',nudge);addEventListener('load',nudge);nudge();
  const layout=()=>{if(mq.matches)settleTo(cur);else{l.classList.remove('anim');l.style.height='';l.style.transform=''}};
  mq.addEventListener('change',layout);addEventListener('resize',()=>{if(mq.matches&&!st)settleTo(cur)});layout()})();
 document.querySelectorAll('[data-act]').forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.act;document.getElementById('mHelp').classList.remove('open');
