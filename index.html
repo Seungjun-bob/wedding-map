@@ -1,7 +1,10 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<title>결혼식 장소 지도</title>
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://seungjun-bob.github.io/wedding-map/">
+<meta name="keywords" content="결혼식장, 웨딩홀, 예식장, 웨딩홀 가격, 식대, 대관료, 보증인원, 결혼식장 비교, 웨딩홀 지도, 참가격, 전국 웨딩홀, 서울 웨딩홀">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "결혼식 장소 지도", "url": "https://seungjun-bob.github.io/wedding-map/", "description": "전국 웨딩홀 805곳과 서울 장로교회·공공예식장 100곳의 식대·대관료·보증인원·수용인원을 지도에서 비교. 참가격 공시가와 아이웨딩·웨딩북·다이렉트 표기가를 나란히 보고 하객 수로 식대+대관료 합계를 계산. 개인이 만든 비상업 페이지.", "inLanguage": "ko"}</script>
+<title>결혼식 장소 지도 | 전국 웨딩홀 805곳 식대·대관료·거리 비교</title>
 <meta property="og:title" content="결혼식 장소 지도">
 <meta property="og:description" content="전국 웨딩홀 805곳과 서울 장로교회·공공예식장. 공시가와 아이웨딩·웨딩북·다이렉트 표기가 비교, 하객 수로 식대+대관료 합계, 양가 기준점 거리, 역세권·주차 필터. 개인이 만든 비상업 페이지.">
 <meta property="og:image" content="https://seungjun-bob.github.io/wedding-map/og.png">
@@ -48,6 +51,7 @@ main{flex:1;display:flex;min-height:0;position:relative}
 .lh{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
 .lh .cnt{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lh label{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;color:var(--ink);font-weight:600;padding:2px 4px 2px 8px;border:1px solid color-mix(in srgb,var(--hall) 45%,var(--line));border-radius:999px;background:color-mix(in srgb,var(--hall) 8%,var(--surface))}
+.dirb{flex:none;width:30px;height:30px;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer;font-size:15px;line-height:1;color:var(--ink)}.dirb:hover{background:var(--line2)}
 .lh input[type=number]{width:60px;padding:3px 6px;border:0;border-radius:6px;background:transparent;text-align:right;font-weight:700;font-size:14px;color:var(--hall)}
 .lh select{padding:3px 4px;border:0;background:transparent;color:var(--ink2);max-width:120px}
 #items{flex:1;overflow:auto;overscroll-behavior:contain}
@@ -152,8 +156,11 @@ table.cmp th{color:var(--muted);font-weight:500;position:sticky;top:0;background
  .preset{grid-template-columns:1fr;grid-template-rows:auto auto auto}.preset .go{grid-column:1;grid-row:3}
 }
 @media (min-width:761px){.handle{display:none}}
+.seo{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 select.ib{appearance:auto;-webkit-appearance:menulist;padding:0 8px;font-weight:600;max-width:110px}
 </style></head><body>
+<section class="seo" aria-hidden="true"><h1>결혼식 장소 지도</h1><p>전국 웨딩홀 805곳과 서울 장로교회·공공예식장의 위치, 식대, 대관료, 보증인원, 수용인원을 지도에서 비교합니다. 한국소비자원 참가격 공시가와 아이웨딩·웨딩북·다이렉트 표기가를 나란히 보고, 하객 수를 넣으면 홀마다 식대와 대관료 합계를 계산합니다. 양가 기준점 거리, 역세권, 주차, 예식 형태로 거를 수 있습니다. 지역: 서울, 경기, 인천, 부산, 대구, 대전, 광주, 울산, 세종, 강원, 충북, 충남, 전북, 전남, 경북, 경남, 제주.</p><p>가격은 각 출처에 표기된 값을 옮긴 것이며 실제 견적은 업체에 확인해야 합니다. 개인이 결혼 준비를 하며 만든 비상업 페이지입니다.</p></section>
+<noscript><p>이 페이지는 자바스크립트로 지도와 목록을 그립니다. 자바스크립트를 켜 주세요.</p></noscript>
 <header>
 <div class="bar">
  <select id="sido" class="ib" title="지역"></select>
@@ -171,7 +178,7 @@ select.ib{appearance:auto;-webkit-appearance:menulist;padding:0 8px;font-weight:
  <button class="chip" data-tab="public" aria-pressed="true"><span class="dot" style="background:var(--public)"></span>공공예식장(서울)</button>
 </div>
 </header>
-<main><aside id="list"><div class="handle" id="handle" title="목록 크게/작게"></div><div class="lh"><span class="cnt" id="count"></span><label>하객 <input type="number" inputmode="numeric" id="guests" class="num" min="50" max="1500" step="10" value="250">명</label><select id="sort"><option value="est" selected>식대+대관료순</option><option value="meal">식대순</option><option value="cap">수용인원순</option><option value="walk">역 가까운순</option><option value="d0">서울역 가까운순</option><option value="dA">A 가까운순</option><option value="dB">B 가까운순</option><option value="dAB">A·B 둘 다 가까운순</option></select></div><div id="items"></div></aside><div id="map"></div><aside id="detail"></aside></main>
+<main><aside id="list"><div class="handle" id="handle" title="목록 크게/작게"></div><div class="lh"><span class="cnt" id="count"></span><label>하객 <input type="number" inputmode="numeric" id="guests" class="num" min="50" max="1500" step="10" value="250">명</label><select id="sort"><option value="est" selected>식대+대관료순</option><option value="meal">식대순</option><option value="cap">수용인원순</option><option value="walk">역 가까운순</option><option value="d0">서울역 가까운순</option><option value="dA">A 가까운순</option><option value="dB">B 가까운순</option><option value="dAB">A·B 둘 다 가까운순</option></select><button class="dirb" id="sortDir" type="button">↓</button></div><div id="items"></div></aside><div id="map"></div><aside id="detail"></aside></main>
 
 <div class="sheet" id="mFilter"><div class="box"><div class="sh"><h3>필터</h3><button class="btn sm" id="fReset">초기화</button><button class="x" data-close="mFilter" aria-label="닫기">×</button></div><div class="sb">
  <div class="fs"><h5>빠른 선택</h5>
@@ -332,9 +339,13 @@ function pass(d){if(!S.tabs[d.tab])return false;if(S.favOnly&&!FAV.has(d.k))retu
  if(S.regional){const s=nearStation(d);if(!s||s.v>+S.regional)return false}
  if(S.q){const q=S.q.toLowerCase();if(!(d.name.toLowerCase().includes(q)||where(d).includes(q)||(d.addr||'').toLowerCase().includes(q)||(d.subway||'').includes(q)))return false}return true}
 const big=1e15;
-const SORT={est:(a,b)=>(estTotal(a)??big)-(estTotal(b)??big),meal:(a,b)=>(mealMin(a)??big)-(mealMin(b)??big),cap:(a,b)=>(b.cap??-1)-(a.cap??-1),walk:(a,b)=>(a.walk??999)-(b.walk??999),
- reviews:(a,b)=>(b.reviews??-1)-(a.reviews??-1),rating:(a,b)=>(b.rating??-1)-(a.rating??-1),d0:(a,b)=>km(a,SEOUL)-km(b,SEOUL),
- dA:(a,b)=>REF.A?km(a,REF.A)-km(b,REF.A):0,dB:(a,b)=>REF.B?km(a,REF.B)-km(b,REF.B):0,dAB:(a,b)=>{const f=d=>Math.max(...[REF.A,REF.B].filter(Boolean).map(p=>km(d,p)),0);return f(a)-f(b)}};
+/* 정렬 키(값 없음은 항상 뒤). 기본 방향: 수용·후기·평점은 내림차순, 나머지 오름차순. ↑↓ 버튼(S.rev)으로 뒤집는다 */
+const KEY={est:d=>estTotal(d),meal:d=>mealMin(d),cap:d=>d.cap??null,walk:d=>d.walk??null,reviews:d=>d.reviews??null,rating:d=>d.rating??null,d0:d=>km(d,SEOUL),
+ dA:d=>REF.A?km(d,REF.A):null,dB:d=>REF.B?km(d,REF.B):null,dAB:d=>{const ps=[REF.A,REF.B].filter(Boolean);return ps.length?Math.max(...ps.map(p=>km(d,p))):null}};
+const DEF_DESC={cap:1,reviews:1,rating:1};
+function sortDesc(){return DEF_DESC[S.sort]?!S.rev:!!S.rev}
+function cmp(a,b){const f=KEY[S.sort]||KEY.est;const x=f(a),y=f(b);const xn=x==null,yn=y==null;if(xn&&yn)return 0;if(xn)return 1;if(yn)return -1;return sortDesc()?y-x:x-y}
+function dirLabel(){const b=document.getElementById('sortDir');if(!b)return;const d=sortDesc();b.textContent=d?'↓':'↑';b.title=d?'내림차순 · 누르면 오름차순':'오름차순 · 누르면 내림차순';b.setAttribute('aria-label',b.title)}
 function itemHTML(d){const g=guests();const ds=Object.entries(dist(d)).map(([k,v])=>`${k.split(' ')[0]} ${v}km`).join(' · ');
  let sub='',pr='';
  if(d.tab==='hall'){const est=estTotal(d);const st=d.subway?d.subway.replace(/^\S*호선\s*|^\S*선\s*/,'').replace(/\s*\d+번출구$/,''):'';sub=[d.type,where(d),st?`${st}${d.walk!=null?` ${d.walk}분`:''}`:null].filter(Boolean).join(' · ');
@@ -342,13 +353,14 @@ function itemHTML(d){const g=guests();const ds=Object.entries(dist(d)).map(([k,v
  else if(d.tab==='church'){sub=[d.denom,d.gu].filter(Boolean).join(' · ');pr=[`교인요건 ${d.req??'확인필요'}`,d.cap?`<span class="num">${d.cap}석</span>`:null].filter(Boolean).join('')}
  else{sub=[d.inout,d.gu].filter(Boolean).join(' · ');pr=[d.feetext?esc(d.feetext.slice(0,18)):null,d.cap?`<span class="num">${d.cap}명</span>`:null].filter(Boolean).join('')}
  return `<div class="item" data-id="${d.id}"><div class="t"><span class="dot" style="background:${COLOR[d.tab]}"></span><span>${esc(d.name)}</span></div><button class="fav ${FAV.has(d.k)?'on':''}" data-k="${d.k}" aria-label="담기">${FAV.has(d.k)?'♥':'♡'}</button><div class="sub">${sub}</div><div class="pr">${pr}</div>${ds?`<div class="ds num">${ds}</div>`:''}</div>`}
-function render(){const rows=DATA.filter(pass).sort(SORT[S.sort]);ENGINE.setData(rows);
+function render(){dirLabel();const rows=DATA.filter(pass).sort(cmp);ENGINE.setData(rows);
  {const c=document.getElementById('count');c.textContent=`${rows.length}곳`;c.title=`웨딩홀 ${rows.filter(d=>d.tab==='hall').length} · 교회 ${rows.filter(d=>d.tab==='church').length} · 공공 ${rows.filter(d=>d.tab==='public').length}`}
  document.getElementById('items').innerHTML=(rows.length?rows.map(itemHTML).join(''):'<div class="empty">조건에 맞는 곳이 없습니다.<br>필터를 하나씩 풀어 보세요.</div>')+FOOTER;document.getElementById('favN').textContent=FAV.size;updateFN();ENGINE.refs()}
 function updateFN(){const n=['sgg','zone','type','shape','food','mealMax','parkMin','near','regional'].filter(k=>S[k]).length+['fit','walk10','favOnly'].filter(k=>S[k]).length+(S.hasfee?0:1);const el=document.getElementById('fN');el.textContent=n;el.hidden=!n;document.getElementById('tglF').classList.toggle('on',!!n)}
 document.getElementById('items').addEventListener('click',e=>{const f=e.target.closest('.fav');if(f){e.stopPropagation();toggleFav(f.dataset.k);return}const it=e.target.closest('.item');if(it)show(+it.dataset.id,true)});
 document.querySelectorAll('.chip[data-tab]').forEach(b=>b.addEventListener('click',()=>{S.tabs[b.dataset.tab]=!S.tabs[b.dataset.tab];b.setAttribute('aria-pressed',S.tabs[b.dataset.tab]);render()}));
-['sgg','zone','type','shape','food','mealMax','parkMin','near','regional','sort'].forEach(k=>document.getElementById(k).addEventListener('change',e=>{S[k]=e.target.value;render()}));
+['sgg','zone','type','shape','food','mealMax','parkMin','near','regional','sort'].forEach(k=>document.getElementById(k).addEventListener('change',e=>{S[k]=e.target.value;if(k==='sort')S.rev=false;render()}));
+document.getElementById('sortDir').addEventListener('click',()=>{S.rev=!S.rev;track('sort_dir',{sort:S.sort,desc:sortDesc()});render()});
 ['fit','walk10','hasfee','favOnly'].forEach(k=>document.getElementById(k).addEventListener('change',e=>{S[k]=e.target.checked;render()}));
 document.getElementById('q').addEventListener('input',e=>{S.q=e.target.value.trim();document.getElementById('btnQ').classList.toggle('on',!!S.q);render()});
 /* 검색: 버튼을 누르면 검색창이 헤더 아래에 뜨고, 닫으면 검색어도 지운다 */
@@ -361,7 +373,7 @@ document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Escape')
 document.getElementById('guests').addEventListener('input',e=>{const v=+e.target.value;if(!v||v<50)return;LS.set('guests',v);render();if(cur!=null)showDetail(cur)});
 document.getElementById('guests').addEventListener('change',e=>{if(!(+e.target.value>=50)){e.target.value=LS.get('guests',250);render()}});
 document.getElementById('tglF').addEventListener('click',()=>document.getElementById('mFilter').classList.add('open'));
-function resetFilters(){['sgg','zone','type','shape','food','mealMax','parkMin','near','regional'].forEach(k=>setSel(k,''));['fit','walk10','favOnly'].forEach(k=>setChk(k,false));setChk('hasfee',true);S.tabs={hall:true,church:true,public:true};document.querySelectorAll('.chip[data-tab]').forEach(c=>c.setAttribute('aria-pressed','true'))}
+function resetFilters(){S.rev=false;['sgg','zone','type','shape','food','mealMax','parkMin','near','regional'].forEach(k=>setSel(k,''));['fit','walk10','favOnly'].forEach(k=>setChk(k,false));setChk('hasfee',true);S.tabs={hall:true,church:true,public:true};document.querySelectorAll('.chip[data-tab]').forEach(c=>c.setAttribute('aria-pressed','true'))}
 document.getElementById('fReset').addEventListener('click',()=>{resetFilters();render();toast('필터를 초기화했습니다')});
 /* 모바일 목록 시트: 핸들·헤더 줄을 끌면 손가락을 따라오고, 놓으면 3단계(지도 위주·반반·목록 위주) 중 가까운 곳으로 붙는다. 탭은 단계 순환. */
 (()=>{const l=document.getElementById('list'),h=document.getElementById('handle'),lh=l.querySelector('.lh');
