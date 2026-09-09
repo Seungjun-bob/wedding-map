@@ -24,17 +24,20 @@ button,input,select{font:inherit;color:inherit}
 .num{font-variant-numeric:tabular-nums}
 :focus-visible{outline:2px solid var(--hall);outline-offset:2px}
 /* 헤더 */
-header{background:var(--surface);border-bottom:1px solid var(--line);flex:none}
-.bar{display:flex;align-items:center;gap:8px;padding:8px 12px}
-.bar h1{font-size:15px;font-weight:700;margin:0;white-space:nowrap;letter-spacing:-.01em}
-.search{color:var(--muted);flex:1;min-width:120px;max-width:420px;display:flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--plane)}
+/* 헤더는 지도 위에 떠 있다(공간을 차지하지 않음). 버튼·칩만 클릭을 받고 빈 자리는 지도로 통과 */
+header{position:absolute;top:0;left:340px;right:0;z-index:1000;pointer-events:none}
+body:has(#detail.open) header{right:380px}
+.bar{display:flex;align-items:center;gap:8px;padding:10px 12px 6px}
+.bar>*,.tabs>*,.qbox .search{pointer-events:auto}
+.search{color:var(--muted);flex:1;min-width:120px;max-width:420px;display:flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.14)}
 .search input{flex:1;border:0;background:transparent;padding:0;min-width:0;font-size:14px;color:var(--ink)}.search input:focus{outline:none}
-.ib{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;font-size:13px;white-space:nowrap}
+.qbox{padding:0 12px 6px}.qx{border:0;background:transparent;cursor:pointer;font-size:20px;line-height:1;color:var(--muted);width:26px;height:26px;border-radius:50%;flex:none}.qx:hover{background:var(--line2)}
+.ib{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;font-size:13px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.14)}
 .ib.on{background:color-mix(in srgb,var(--hall) 12%,var(--surface));border-color:color-mix(in srgb,var(--hall) 50%,var(--line));color:var(--hall)}
 .ib .n{font-weight:700;min-width:1em;text-align:center}
 .tabs{display:flex;gap:6px;padding:0 12px 8px;overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
-.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;font-size:13px;white-space:nowrap}
-.chip[aria-pressed="false"]{color:var(--muted);background:transparent}.chip[aria-pressed="false"] .dot{opacity:.35}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;font-size:13px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.14)}
+.chip[aria-pressed="false"]{color:var(--muted);opacity:.75}.chip[aria-pressed="false"] .dot{opacity:.35}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;box-shadow:0 0 0 1.5px var(--halo),0 0 0 2.5px var(--ring)}
 /* 본문 3열 */
 main{flex:1;display:flex;min-height:0;position:relative}
@@ -134,7 +137,8 @@ table.cmp th{color:var(--muted);font-weight:500;position:sticky;top:0;background
 @media (prefers-reduced-motion:no-preference){#list,#detail,.sheet .box{transition:transform .22s ease}}
 /* 모바일 */
 @media (max-width:760px){
- .bar{padding:8px 10px;flex-wrap:wrap;gap:6px}.bar h1{font-size:14px;flex:1}.search{order:9;flex-basis:100%;max-width:none}.ib .tx{display:none}.ib{padding:0 10px}
+ header{left:0;right:0}body:has(#detail.open) header{right:0}
+ .bar{padding:8px 8px 6px;flex-wrap:wrap;gap:6px}.ib .tx{display:none}.ib{padding:0 9px}.qbox{padding:0 8px 6px}.search{max-width:none}
  main{display:block}#map{position:absolute;inset:0}
  #list{position:absolute;left:0;right:0;bottom:0;width:auto;height:46%;border-right:0;border-top:1px solid var(--line);border-radius:14px 14px 0 0;box-shadow:0 -8px 24px rgba(0,0,0,.14);z-index:900;overflow:hidden;transition:none;will-change:transform}
  #list.anim{transition:transform .3s cubic-bezier(.2,.8,.2,1)}
@@ -152,15 +156,15 @@ select.ib{appearance:auto;-webkit-appearance:menulist;padding:0 8px;font-weight:
 </style></head><body>
 <header>
 <div class="bar">
- <h1>결혼식 장소</h1>
  <select id="sido" class="ib" title="지역"></select>
- <div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="q" placeholder="이름, 지역, 역"></div>
+ <button class="ib" id="btnQ" aria-label="검색"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="tx">검색</span></button>
  <button class="ib" id="tglF"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg><span class="tx">필터</span><span class="n" id="fN" hidden></span></button>
  <button class="ib" id="btnRef"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 0 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="tx">기준점</span></button>
  <button class="ib" id="btnFav"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="tx">담은 곳</span><span class="n" id="favN">0</span></button>
  <button class="ib" id="btnGu"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span class="tx">지역별</span></button>
  <button class="ib" id="btnHelp"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7"/><path d="M12 17h.01"/></svg><span class="tx">처음이라면</span></button>
 </div>
+<div class="qbox" id="qbox" hidden><div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="q" placeholder="이름, 지역, 역" autocomplete="off" enterkeyhint="search"><button class="qx" id="qClose" aria-label="닫기">×</button></div></div>
 <div class="tabs">
  <button class="chip" data-tab="hall" aria-pressed="true"><span class="dot" style="background:var(--hall)"></span>웨딩홀</button>
  <button class="chip" data-tab="church" aria-pressed="true"><span class="dot" style="background:var(--church)"></span>교회(장로교·서울)</button>
@@ -346,9 +350,16 @@ document.getElementById('items').addEventListener('click',e=>{const f=e.target.c
 document.querySelectorAll('.chip[data-tab]').forEach(b=>b.addEventListener('click',()=>{S.tabs[b.dataset.tab]=!S.tabs[b.dataset.tab];b.setAttribute('aria-pressed',S.tabs[b.dataset.tab]);render()}));
 ['sgg','zone','type','shape','food','mealMax','parkMin','near','regional','sort'].forEach(k=>document.getElementById(k).addEventListener('change',e=>{S[k]=e.target.value;render()}));
 ['fit','walk10','hasfee','favOnly'].forEach(k=>document.getElementById(k).addEventListener('change',e=>{S[k]=e.target.checked;render()}));
-document.getElementById('q').addEventListener('input',e=>{S.q=e.target.value.trim();render()});
+document.getElementById('q').addEventListener('input',e=>{S.q=e.target.value.trim();document.getElementById('btnQ').classList.toggle('on',!!S.q);render()});
+/* 검색: 버튼을 누르면 검색창이 헤더 아래에 뜨고, 닫으면 검색어도 지운다 */
+function openQ(on){const b=document.getElementById('qbox');b.hidden=!on;if(on){const i=document.getElementById('q');i.focus();i.select()}else if(S.q){document.getElementById('q').value='';S.q='';document.getElementById('btnQ').classList.remove('on');render()}}
+document.getElementById('btnQ').addEventListener('click',()=>openQ(document.getElementById('qbox').hidden));
+document.getElementById('qClose').addEventListener('click',()=>openQ(false));
+document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Escape')openQ(false);if(e.key==='Enter')e.target.blur()});
 (function(){const g=LS.get('guests',null);if(g)document.getElementById('guests').value=g})();
-document.getElementById('guests').addEventListener('input',()=>{LS.set('guests',guests());render();if(cur!=null)showDetail(cur)});
+/* 하객 칸: 지우고 다시 칠 때 3·30 같은 중간값으로 목록이 출렁이지 않게 50명 이상일 때만 반영, 비워 두고 나가면 직전 값 복원 */
+document.getElementById('guests').addEventListener('input',e=>{const v=+e.target.value;if(!v||v<50)return;LS.set('guests',v);render();if(cur!=null)showDetail(cur)});
+document.getElementById('guests').addEventListener('change',e=>{if(!(+e.target.value>=50)){e.target.value=LS.get('guests',250);render()}});
 document.getElementById('tglF').addEventListener('click',()=>document.getElementById('mFilter').classList.add('open'));
 function resetFilters(){['sgg','zone','type','shape','food','mealMax','parkMin','near','regional'].forEach(k=>setSel(k,''));['fit','walk10','favOnly'].forEach(k=>setChk(k,false));setChk('hasfee',true);S.tabs={hall:true,church:true,public:true};document.querySelectorAll('.chip[data-tab]').forEach(c=>c.setAttribute('aria-pressed','true'))}
 document.getElementById('fReset').addEventListener('click',()=>{resetFilters();render();toast('필터를 초기화했습니다')});
@@ -454,7 +465,7 @@ const TIER=d=>{if(d.tab!=='hall')return 't2';const c=d.cap||0,r=d.reviews||0;ret
 let map=null;const OV=new Map();let REFOV=[];let geocoder=null;
 function mkOv(cls,html,lat,lng,z,onclick){const el=document.createElement('div');el.className=cls;el.innerHTML=html;if(onclick)el.onclick=e=>{e.stopPropagation();onclick()};return new kakao.maps.CustomOverlay({position:new kakao.maps.LatLng(lat,lng),content:el,xAnchor:0,yAnchor:0.5,zIndex:z,clickable:!!onclick})}
 function initKakao(){map=new kakao.maps.Map(document.getElementById('map'),{center:new kakao.maps.LatLng(37.53,126.99),level:8});
- map.addControl(new kakao.maps.ZoomControl(),kakao.maps.ControlPosition.TOPLEFT);map.addControl(new kakao.maps.MapTypeControl(),kakao.maps.ControlPosition.TOPRIGHT);
+ /* 줌·스카이뷰 컨트롤 없음(2026-09-09): 손가락·마우스 휠로 충분 */
  try{geocoder=new kakao.maps.services.Geocoder()}catch(e){geocoder=null}
  DATA.forEach(d=>{const ov=mkOv(`pt ${d.tab} ${TIER(d)}`,`<span class="dot"></span><span class="lb">${esc(shortName(d.name))}</span>`,d.lat,d.lng,(d.tab!=='hall'?400:0)+(d.cap||0)/10+(d.reviews||0)/5,()=>show(d.id,false));OV.set(d.id,ov)});
  const zc=()=>{const l=map.getLevel();const c=document.getElementById('map');c.classList.remove('z-lo','z-mid','z-hi','z-max');c.classList.add(l<=4?'z-max':l<=5?'z-hi':l<=7?'z-mid':'z-lo')};
