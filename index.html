@@ -143,7 +143,7 @@ table.cmp th{color:var(--muted);font-weight:500;position:sticky;top:0;background
 .pt .dot{width:9px;height:9px;border-radius:50%;box-shadow:0 0 0 1.5px #fff,0 0 0 2.5px rgba(0,0,0,.15);flex:none}
 .pt.hall .dot{background:var(--hall)}.pt.church .dot{background:var(--church)}.pt.public .dot{background:var(--public)}
 .pt .lb{font:500 11px/1.2 "Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;color:#111;text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 3px #fff,1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff}
-.pt.zone{pointer-events:none}.pt.zone .lb{background:rgba(42,120,214,.88);color:#fff;border-radius:999px;padding:2px 8px;font-size:11.5px;font-weight:600;text-shadow:none}#map .pt.zone .lb{display:inline!important}
+.pt.zone{pointer-events:none}.pt.zone .lb{background:rgba(107,122,153,.9);color:#fff;border-radius:999px;padding:2px 8px;font-size:11.5px;font-weight:600;text-shadow:none}#map .pt.zone .lb{display:inline!important}
 .pt.hov .dot{animation:pulse 1.1s ease-out infinite}#map .pt.hov .lb{display:inline!important;font-weight:700}
 @keyframes pulse{0%{box-shadow:0 0 0 2px #fff,0 0 0 4px rgba(23,24,26,.45)}70%{box-shadow:0 0 0 2px #fff,0 0 0 16px rgba(23,24,26,0)}100%{box-shadow:0 0 0 2px #fff,0 0 0 16px rgba(23,24,26,0)}}
 @media (prefers-reduced-motion:reduce){.pt.hov .dot{animation:none;box-shadow:0 0 0 2px #fff,0 0 0 6px rgba(23,24,26,.35)}}
@@ -548,8 +548,8 @@ function initKakao(){map=new kakao.maps.Map(document.getElementById('map'),{cent
 const ENGINE={select:(prev,id)=>{if(prev!=null&&OV.get(prev))OV.get(prev).getContent().classList.remove('sel');if(id!=null&&OV.get(id)){OV.get(id).getContent().classList.add('sel');OV.get(id).setZIndex(99999)}},
  resize:()=>{if(map)map.relayout()},focus:d=>{if(!map)return;if(map.getLevel()>4)map.setLevel(4);map.panTo(new kakao.maps.LatLng(d.lat,d.lng))},
  zone:sh=>{if(!map)return;const key=sh?sh.key:'';if(key===ZONEKEY)return;ZONEKEY=key;ZONEOV.forEach(o=>o.setMap(null));ZONEOV=[];if(!sh)return;
-  for(const p of [sh.A,sh.B]){const c=new kakao.maps.Circle({center:new kakao.maps.LatLng(p.lat,p.lng),radius:sh.r*1000,strokeWeight:1,strokeColor:'#2a78d6',strokeOpacity:.55,strokeStyle:'shortdash',fillColor:'#2a78d6',fillOpacity:.05});c.setMap(map);ZONEOV.push(c)}
-  if(sh.lens){const pg=new kakao.maps.Polygon({path:sh.lens.map(p=>new kakao.maps.LatLng(p.lat,p.lng)),strokeWeight:2,strokeColor:'#2a78d6',strokeOpacity:.8,fillColor:'#2a78d6',fillOpacity:.14});pg.setMap(map);ZONEOV.push(pg)}
+  for(const p of [sh.A,sh.B]){const c=new kakao.maps.Circle({center:new kakao.maps.LatLng(p.lat,p.lng),radius:sh.r*1000,strokeWeight:1,strokeColor:'#6b7a99',strokeOpacity:.45,strokeStyle:'shortdash',fillColor:'#6b7a99',fillOpacity:.03});c.setMap(map);ZONEOV.push(c)}
+  if(sh.lens){const pg=new kakao.maps.Polygon({path:sh.lens.map(p=>new kakao.maps.LatLng(p.lat,p.lng)),strokeWeight:1.5,strokeColor:'#6b7a99',strokeOpacity:.7,fillColor:'#6b7a99',fillOpacity:.08});   /* 마커 파랑과 겹치지 않게 회청색·연하게 */pg.setMap(map);ZONEOV.push(pg)}
   const m=mkOv('pt zone',`<span class="lb">중간 · ${sh.d}km${sh.lens?'':' · 겹치지 않음'}</span>`,sh.mid.lat,sh.mid.lng,9998);m.setMap(map);ZONEOV.push(m)},
  hover:(id,on)=>{const ov=OV.get(id);if(!ov)return;const el=ov.getContent();el.classList.toggle('hov',on);if(on){el.dataset.z=ov.getZIndex();ov.setZIndex(99998)}else if(el.dataset.z!==undefined){ov.setZIndex(+el.dataset.z);delete el.dataset.z}},
  fit:rows=>{if(!map)return;if(S.sido==='서울'){map.setLevel(8);map.setCenter(new kakao.maps.LatLng(37.53,126.99));return}if(!rows.length)return;const b=new kakao.maps.LatLngBounds();rows.forEach(d=>b.extend(new kakao.maps.LatLng(d.lat,d.lng)));map.setBounds(b)},
