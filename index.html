@@ -237,7 +237,7 @@ select.ib{appearance:auto;-webkit-appearance:menulist;padding:0 8px;font-weight:
  </div>
  <div class="fs" style="margin-top:14px"><h5>가운데 영역</h5>
   <p class="note" style="margin:0 0 6px">A·B를 넣으면 양가에서 각각 반경 안인 곳(두 원이 겹치는 부분)을 지도에 칠합니다. 직선거리라 강을 건너는 곳은 실제보다 가까워 보일 수 있어요.</p>
-  <div class="fg"><label class="tg"><input type="checkbox" id="zoneShow">지도에 표시</label><select id="zoneR"><option value="0">반경 자동</option><option value="8">8km</option><option value="12">12km</option><option value="15">15km</option><option value="20">20km</option></select><label class="tg"><input type="checkbox" id="zoneOnly">이 영역 안 식장만 보기</label></div>
+  <div class="fg"><label class="tg"><input type="checkbox" id="zoneShow">지도에 표시</label><select id="zoneR"><option value="0">반경 자동</option><option value="8">8km</option><option value="10">10km</option><option value="12">12km</option><option value="15">15km</option><option value="20">20km</option><option value="25">25km</option><option value="30">30km</option></select><label class="tg"><input type="checkbox" id="zoneOnly">이 영역 안 식장만 보기</label></div>
   <div class="note" id="zoneInfo" style="margin-top:6px"></div>
  </div>
  <div class="fs" style="margin-top:18px"><h5>하객 분포로 중심 찾기</h5>
@@ -312,7 +312,7 @@ let REF={A:null,B:null,C:null};(function(){const s=LS.get('refs',null);if(s){REF
 function refList(){return [(!S.sido||S.sido==='서울')?SEOUL:null,REF.A,REF.B,REF.C].filter(Boolean)}
 /* 가운데 영역: A·B 각각 반경 r km 원의 겹침(렌즈). 평면 근사(위도 110.57km, 경도 111.32·cos) */
 let ZONE=Object.assign({show:true,r:0,only:false},LS.get('zone',{}));
-function zoneAuto(){return (REF.A&&REF.B)?Math.max(8,Math.ceil(km(REF.A,REF.B)/2+2)):12}
+function zoneAuto(){return (REF.A&&REF.B)?Math.max(10,Math.ceil(km(REF.A,REF.B)/2+5)):15}   /* 자동 반경 = 두 집 거리/2 + 5km(최소 10): 렌즈 폭이 10km쯤 나오게 */
 function zoneR(){return ZONE.r||zoneAuto()}
 function zoneShape(){if(!ZONE.show||!REF.A||!REF.B)return null;const A=REF.A,B=REF.B,r=zoneR(),d=km(A,B);
  const ky=110.57,kx=111.32*Math.cos(A.lat*Math.PI/180);const toLL=(x,y)=>({lat:A.lat+y/ky,lng:A.lng+x/kx});const bx=(B.lng-A.lng)*kx,by=(B.lat-A.lat)*ky;const th=Math.atan2(by,bx);let lens=null;
@@ -320,7 +320,7 @@ function zoneShape(){if(!ZONE.show||!REF.A||!REF.B)return null;const A=REF.A,B=R
  return {A,B,r,d,lens,mid:{lat:(A.lat+B.lat)/2,lng:(A.lng+B.lng)/2},key:`${A.lat},${A.lng},${B.lat},${B.lng},${r}`}}
 function zoneUI(){const sh=(REF.A&&REF.B)?{d:km(REF.A,REF.B)}:null;document.getElementById('zoneShow').checked=!!ZONE.show;document.getElementById('zoneR').value=String(ZONE.r||0);document.getElementById('zoneOnly').checked=!!ZONE.only;
  const info=document.getElementById('zoneInfo');if(!sh){info.textContent='A와 B를 모두 넣으면 계산합니다.';return}const r=zoneR();
- info.textContent=`두 집 직선거리 ${sh.d} km · 반경 ${r} km${ZONE.r?'':'(자동)'} · `+(sh.d<2*r?'겹치는 영역 있음':`겹치지 않음 → 반경을 ${Math.ceil(sh.d/2)+1} km 이상으로`)}
+ info.textContent=`두 집 직선거리 ${sh.d} km · 반경 ${r} km${ZONE.r?'':'(자동)'} · `+(sh.d<2*r?`겹치는 영역 폭 약 ${Math.round((2*r-sh.d)*10)/10} km`:`겹치지 않음 → 반경을 ${Math.ceil(sh.d/2)+1} km 이상으로`)}
 function zoneApply(){LS.set('zone',ZONE);const sel=document.getElementById('near');
  if(ZONE.only&&REF.A&&REF.B){const r=String(zoneR());if(![...sel.options].some(o=>o.value===r))sel.add(new Option(`둘 다 ${r}km 이내(가운데 영역)`,r));setSel('near',r)}
  else if(!ZONE.only&&S.near===String(zoneR()))setSel('near','');
