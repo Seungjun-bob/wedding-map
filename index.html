@@ -29,7 +29,7 @@
 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=f322cc1dfb19c6457ca2ac557450c954&libraries=services&autoload=false"></script>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{color-scheme:light;--plane:#f5f6f8;--surface:#ffffff;--ink:#17181a;--ink2:#4b4f57;--muted:#6b6f76;--line:#e3e5e9;--line2:#eef0f3;--ring:rgba(23,24,26,.10);
@@ -63,7 +63,7 @@ main{flex:1;display:flex;min-height:0;position:relative}
 #detail{width:380px;flex:none;border-left:1px solid var(--line);background:var(--surface);overflow:auto;display:none}#detail.open{display:block}
 /* 목록 */
 .lh{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
-.lt{display:flex;align-items:center;justify-content:space-between;padding:9px 12px 0;line-height:1}.lt .wm{font-size:16px;color:var(--ink)}.lt .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}   /* 이름 줄: 워드마크 + 개수(2026-09-11). 개수를 하객 줄에서 빼서 340px에서도 안 잘림 */
+.lt{display:flex;align-items:center;justify-content:space-between;padding:9px 12px 0;line-height:1}.lt .wm{font-size:17px;color:var(--ink)}.lt .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}   /* 이름 줄: 워드마크 + 개수(2026-09-11). 개수를 하객 줄에서 빼서 340px에서도 안 잘림 */
 .lh label{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;color:var(--ink);font-weight:600;padding:2px 4px 2px 8px;border:1px solid color-mix(in srgb,var(--hall) 45%,var(--line));border-radius:999px;background:color-mix(in srgb,var(--hall) 8%,var(--surface))}
 .dirb{flex:none;width:30px;height:30px;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer;font-size:15px;line-height:1;color:var(--ink)}.dirb:hover{background:var(--line2)}
 .lh input[type=number]{width:60px;padding:3px 6px;border:0;border-radius:6px;background:transparent;text-align:right;font-weight:700;font-size:14px;color:var(--hall)}
@@ -143,7 +143,7 @@ table.cmp th{color:var(--muted);font-weight:500;position:sticky;top:0;background
 .step b{font-size:14px}.step p{grid-column:2;grid-row:2;margin:0;font-size:13px;color:var(--ink2);line-height:1.55}.step .btn{grid-column:3;grid-row:1/span 2;align-self:center}
 .gloss{margin-top:16px}.gloss dt{font-weight:600;font-size:13.5px;margin-top:10px}.gloss dd{margin:2px 0 0;font-size:13px;color:var(--ink2);line-height:1.55}
 /* 토스트 */
-.wm{font-family:'Jua',"Pretendard Variable",Pretendard,sans-serif;font-weight:400;letter-spacing:-.01em}   /* 이름(결혼할지도) 워드마크 */
+.wm{font-family:'Noto Serif KR',"Apple SD Gothic Neo",serif;font-weight:700;letter-spacing:-.02em}   /* 이름(결혼할지도) 워드마크 */
 #toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:9px 14px;border-radius:999px;font-size:13px;z-index:3000;display:none;max-width:90vw}#toast.on{display:block}
 #inapp{pointer-events:auto;margin:0 12px 8px;padding:8px 10px 8px 12px;background:var(--ink);color:var(--surface);border-radius:12px;font-size:12.5px;line-height:1.45;display:flex;align-items:center;gap:8px;flex-wrap:wrap;box-shadow:0 4px 14px rgba(0,0,0,.18)}#inapp[hidden]{display:none}#inapp .t{flex:1;min-width:150px;word-break:keep-all}#inapp .b{display:inline-flex;align-items:center;height:28px;padding:0 10px;border-radius:999px;background:var(--surface);color:var(--ink);font-weight:600;font-size:12px;font-family:inherit;text-decoration:none;border:0;cursor:pointer;white-space:nowrap}#inapp .x{background:transparent;color:var(--surface);border:0;font-size:18px;line-height:1;padding:0 2px;cursor:pointer}   /* 인앱 브라우저 안내 배너 */
 /* 카카오 오버레이 */
