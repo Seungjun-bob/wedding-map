@@ -4,6 +4,10 @@
 <link rel="canonical" href="https://weddingmap.seungjun.dev/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232a78d6'/%3E%3Ccircle cx='16' cy='13' r='5' fill='none' stroke='%23fff' stroke-width='2.5'/%3E%3Cpath d='M16 18v8' stroke='%23fff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
 <meta name="theme-color" content="#2a78d6">
+<link rel="manifest" href="https://weddingmap.seungjun.dev/manifest.webmanifest">
+<link rel="apple-touch-icon" href="https://weddingmap.seungjun.dev/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="결혼할지도">
+<meta name="application-name" content="결혼할지도">
 <meta property="og:site_name" content="결혼할지도">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:title" content="결혼할지도 · 전국 웨딩홀 식대·대관료 비교 지도">
@@ -59,7 +63,7 @@ main{flex:1;display:flex;min-height:0;position:relative}
 #detail{width:380px;flex:none;border-left:1px solid var(--line);background:var(--surface);overflow:auto;display:none}#detail.open{display:block}
 /* 목록 */
 .lh{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
-.lh .cnt{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lt{display:flex;align-items:center;justify-content:space-between;padding:9px 12px 0;line-height:1}.lt .wm{font-size:16px;color:var(--ink)}.lt .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}   /* 이름 줄: 워드마크 + 개수(2026-09-11). 개수를 하객 줄에서 빼서 340px에서도 안 잘림 */
 .lh label{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;color:var(--ink);font-weight:600;padding:2px 4px 2px 8px;border:1px solid color-mix(in srgb,var(--hall) 45%,var(--line));border-radius:999px;background:color-mix(in srgb,var(--hall) 8%,var(--surface))}
 .dirb{flex:none;width:30px;height:30px;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer;font-size:15px;line-height:1;color:var(--ink)}.dirb:hover{background:var(--line2)}
 .lh input[type=number]{width:60px;padding:3px 6px;border:0;border-radius:6px;background:transparent;text-align:right;font-weight:700;font-size:14px;color:var(--hall)}
@@ -159,7 +163,7 @@ table.cmp th{color:var(--muted);font-weight:500;position:sticky;top:0;background
  #list{position:absolute;left:0;right:0;bottom:0;width:auto;height:46%;border-right:0;border-top:1px solid var(--line);border-radius:14px 14px 0 0;box-shadow:0 -8px 24px rgba(0,0,0,.14);z-index:900;overflow:hidden;transition:none;will-change:transform}
  #list.anim{transition:transform .3s cubic-bezier(.2,.8,.2,1)}
  .handle{display:block;position:relative;width:44px;height:5px;border-radius:3px;background:#b8bcc4;margin:8px auto 0;cursor:grab;touch-action:none}.handle::before{content:"";position:absolute;inset:-12px -80px}
- .lh{touch-action:none;cursor:grab}
+ .lh,.lt{touch-action:none;cursor:grab}
  html,body{overscroll-behavior:none}
  input:not([type=checkbox]):not([type=radio]),select,textarea{font-size:16px!important}  /* iOS: 16px 미만 입력칸은 포커스 시 화면 확대 */
  #detail{position:absolute;left:0;right:0;bottom:0;width:auto;max-height:78%;border-left:0;border-top:1px solid var(--line);border-radius:14px 14px 0 0;box-shadow:0 -8px 28px rgba(0,0,0,.18);z-index:950}
@@ -193,7 +197,7 @@ select.ib{appearance:auto;-webkit-appearance:menulist;padding:0 8px;font-weight:
 </div>
 <div id="inapp" hidden></div>
 </header>
-<main><aside id="list"><div class="handle" id="handle" title="목록 크게/작게"></div><div class="lh"><span class="cnt" id="count"></span><label>하객 <input type="number" inputmode="numeric" id="guests" class="num" min="50" max="1500" step="10" value="250">명</label><select id="sort"><option value="est" selected>식대+대관료순</option><option value="meal">식대순</option><option value="cap">수용인원순</option><option value="walk">역 가까운순</option><option value="d0">서울역 가까운순</option><option value="dA">A 가까운순</option><option value="dB">B 가까운순</option><option value="dAB">A·B 둘 다 가까운순</option></select><button class="dirb" id="sortDir" type="button">↓</button></div><div id="items"></div></aside><div id="map"></div><aside id="detail"></aside></main>
+<main><aside id="list"><div class="handle" id="handle" title="목록 크게/작게"></div><div class="lt" id="lt"><span class="wm">결혼할지도</span><span class="cnt" id="count"></span></div><div class="lh"><label>하객 <input type="number" inputmode="numeric" id="guests" class="num" min="50" max="1500" step="10" value="250">명</label><select id="sort"><option value="est" selected>식대+대관료순</option><option value="meal">식대순</option><option value="cap">수용인원순</option><option value="walk">역 가까운순</option><option value="d0">서울역 가까운순</option><option value="dA">A 가까운순</option><option value="dB">B 가까운순</option><option value="dAB">A·B 둘 다 가까운순</option></select><button class="dirb" id="sortDir" type="button">↓</button></div><div id="items"></div></aside><div id="map"></div><aside id="detail"></aside></main>
 
 <div class="sheet" id="mFilter"><div class="box"><div class="sh"><h3>필터</h3><button class="btn sm" id="fReset">초기화</button><button class="x" data-close="mFilter" aria-label="닫기">×</button></div><div class="sb">
  <div class="fs"><h5>빠른 선택</h5>
@@ -437,7 +441,7 @@ document.getElementById('tglF').addEventListener('click',()=>document.getElement
 function resetFilters(){S.rev=false;ZONE.only=false;LS.set('zone',ZONE);['sgg','zone','type','shape','food','mealMax','parkMin','near','regional'].forEach(k=>setSel(k,''));['fit','walk10','favOnly'].forEach(k=>setChk(k,false));setChk('hasfee',true);S.tabs={hall:true,church:true,public:true};document.querySelectorAll('.chip[data-tab]').forEach(c=>c.setAttribute('aria-pressed','true'))}
 document.getElementById('fReset').addEventListener('click',()=>{resetFilters();render();toast('필터를 초기화했습니다')});
 /* 모바일 목록 시트: 핸들·헤더 줄을 끌면 손가락을 따라오고, 놓으면 3단계(지도 위주·반반·목록 위주) 중 가까운 곳으로 붙는다. 탭은 단계 순환. */
-(()=>{const l=document.getElementById('list'),h=document.getElementById('handle'),lh=l.querySelector('.lh');
+(()=>{const l=document.getElementById('list'),h=document.getElementById('handle'),lh=l.querySelector('.lh'),lt=l.querySelector('.lt');
  const mq=matchMedia('(max-width:760px)'),rm=matchMedia('(prefers-reduced-motion:reduce)');
  const H=()=>l.parentElement.clientHeight,px=i=>i===0?lh.offsetTop+lh.offsetHeight+1:Math.round(H()*(i===1?.46:.88));
  let cur=LS.get('sheet',1);if(![0,1,2].includes(cur))cur=1;let st=null,settle=null;
@@ -455,9 +459,9 @@ document.getElementById('fReset').addEventListener('click',()=>{resetFilters();r
   if(!s.moved){snap(cur===1?2:1);return}
   const [t0,y0]=s.samples[0],[t1,y1]=s.samples[s.samples.length-1];const v=(t1>t0&&e.timeStamp-t1<120)?(y1-y0)/(t1-t0):0;  /* 멈췄다 놓으면 튕김 아님 */
   const target=Math.abs(v)>.45?Math.max(0,Math.min(2,cur+(v<0?1:-1))):[0,1,2].reduce((b,i)=>Math.abs(px(i)-s.vis)<Math.abs(px(b)-s.vis)?i:b,0);snap(target)};
- for(const el of [h,lh]){el.addEventListener('pointerdown',down);el.addEventListener('pointermove',move);el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up)}
+ for(const el of [h,lt,lh]){el.addEventListener('pointerdown',down);el.addEventListener('pointermove',move);el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up)}
  /* 인앱 브라우저(스레드·인스타)는 페이지가 소비하지 않은 세로 스와이프를 창 닫기로 해석한다. 드래그 중 touchmove를 소비해 네이티브로 넘기지 않는다 */
- for(const el of [h,lh])el.addEventListener('touchmove',e=>{if(st)e.preventDefault()},{passive:false});
+ for(const el of [h,lt,lh])el.addEventListener('touchmove',e=>{if(st)e.preventDefault()},{passive:false});
  /* 같은 이유로 터치 기기에서는 문서를 1px만 스크롤 가능하게 두고 항상 1px 내려둔다. 스크롤 위치 0에서의 아래 스와이프가 창 닫기로 잡히기 때문 */
  const coarse=matchMedia('(pointer:coarse)');const nudge=()=>{if(coarse.matches&&mq.matches){document.body.style.minHeight=(innerHeight+1)+'px';if(scrollY<1)scrollTo(0,1)}else document.body.style.minHeight=''};
  addEventListener('scroll',nudge,{passive:true});addEventListener('resize',nudge);addEventListener('load',nudge);nudge();
