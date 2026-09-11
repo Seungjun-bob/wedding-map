@@ -536,10 +536,10 @@ if(!LS.get('seen',false)&&!/pick=/.test(location.hash)){const w=document.createE
 (function(){const ua=navigator.userAgent;const app=/Barcelona/i.test(ua)?'스레드':/Instagram/i.test(ua)?'인스타그램':/FBAN|FBAV/i.test(ua)?'페이스북':/KAKAOTALK/i.test(ua)?'카카오톡':null;if(!app)return;
  try{if(sessionStorage.getItem('wm.inapp')==='1')return}catch(e){}
  const ios=/iPhone|iPad|iPod/i.test(ua),q=new URLSearchParams(location.search);if(location.hash.length>1)q.set('h',location.hash.slice(1));const qs=q.toString();const target=location.host+location.pathname+(qs?'?'+qs:''),https='https://'+target;
- const kakao=app==='카카오톡';const open=kakao?'kakaotalk://web/openExternal?url='+encodeURIComponent(https):ios?'x-safari-'+https:'intent://'+target+'#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url='+encodeURIComponent(https)+';end';
- const el=document.getElementById('inapp');el.innerHTML=`<span class="t"><b>${app} 안에서는 지도가 느려요.</b> 오른쪽 위 ··· 메뉴에서 '브라우저에서 열기'를 누르거나 ▸</span><a class="b" id="inappOpen" href="${open}">${kakao?'브라우저로':ios?'Safari로':'크롬으로'} 열기</a><button class="b" id="inappCopy" type="button">링크 복사</button><button class="x" id="inappX" type="button" aria-label="닫기">×</button>`;
+ const kakao=app==='카카오톡';const open=kakao?'kakaotalk://web/openExternal?url='+encodeURIComponent(https):ios?null:'intent://'+target+'#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url='+encodeURIComponent(https)+';end';   /* iOS 스레드는 x-safari 스킴이 막힘(2026-09-11 실기 확인) → 메뉴 안내 + 링크 복사만 */
+ const el=document.getElementById('inapp');el.innerHTML=`<span class="t"><b>${app} 안에서는 지도가 느려요.</b> 오른쪽 위 ··· 메뉴에서 '브라우저에서 열기'를 누르거나${open?' ▸':', 주소를 복사해 Safari에 붙여넣으세요 ▸'}</span>${open?`<a class="b" id="inappOpen" href="${open}">${kakao?'브라우저로':'크롬으로'} 열기</a>`:''}<button class="b" id="inappCopy" type="button">링크 복사</button><button class="x" id="inappX" type="button" aria-label="닫기">×</button>`;
  el.hidden=false;track('inapp_seen',{app});
- document.getElementById('inappOpen').addEventListener('click',()=>track('inapp_open',{app,via:kakao?'kakao':ios?'safari':'chrome'}));
+ const oa=document.getElementById('inappOpen');if(oa)oa.addEventListener('click',()=>track('inapp_open',{app,via:kakao?'kakao':'chrome'}));
  document.getElementById('inappCopy').addEventListener('click',async()=>{await copy(https);track('inapp_open',{app,via:'copy'});toast('주소를 복사했어요. 브라우저 주소창에 붙여넣으세요')});
  document.getElementById('inappX').addEventListener('click',()=>{el.hidden=true;try{sessionStorage.setItem('wm.inapp','1')}catch(e){}})})();
 
